@@ -1,22 +1,26 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom';
+import React, { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../Provider/AuthProvider";
 
 function Navber() {
-    const link = (
-      <>
-        <li>
-         <NavLink to={'/'}>Home</NavLink>
-        </li>
-        <li>
-         <NavLink to={'/login'}>login</NavLink>
-        </li>
-        <li>
-         <NavLink to={'/register'}>Register</NavLink>
-        </li>
+  const { user, usersignOut } = useContext(AuthContext);
 
-        
-      </>
-    );
+  console.log(user);
+  const hendelSignOut =()=>{
+    usersignOut()
+    .then(()=>{
+        console.log('success full sign out');
+    })
+    .catch(error => console.log(error.message))
+  }
+
+  const link = (
+    <>
+      <li><NavLink to={"/"}>Home</NavLink></li>
+      <li><NavLink to={"/login"}>login</NavLink></li>
+      <li><NavLink to={"/register"}>Register</NavLink></li>
+    </>
+  );
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -41,21 +45,28 @@ function Navber() {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-           {link}
+            {link}
           </ul>
         </div>
         <a className="btn btn-ghost text-xl">daisyUI</a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          {link}
-        </ul>
+        <ul className="menu menu-horizontal px-1">{link}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {user ? (
+          <>
+            <span> {user?.email}</span>
+            <a onClick={hendelSignOut} className="btn">
+              sign Out
+            </a>
+          </>
+        ) : (
+          <Link to={"/login"}>Login</Link>
+        )}
       </div>
     </div>
   );
 }
 
-export default Navber
+export default Navber;
