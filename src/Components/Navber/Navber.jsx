@@ -16,9 +16,25 @@ function Navber() {
 
   const link = (
     <>
-      <li><NavLink to={"/"}>Home</NavLink></li>
-      <li><NavLink to={"/login"}>login</NavLink></li>
-      <li><NavLink to={"/register"}>Register</NavLink></li>
+      <li>
+        <NavLink to={"/"}>Home</NavLink>
+      </li>
+      <li>
+        <NavLink to={"/login"}>login</NavLink>
+      </li>
+      <li>
+        <NavLink to={"/register"}>Register</NavLink>
+      </li>
+      {user && (
+        <>
+          <li>
+            <NavLink to={"/orderlist"}>OrderList</NavLink>
+          </li>
+          <li>
+            <NavLink to={"/proflie"}>Proflie</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -48,7 +64,7 @@ function Navber() {
             {link}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <a className="btn btn-ghost text-xl">Login Page </a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{link}</ul>

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Provider/AuthProvider';
 
 function Login() {
-
-    const { userLogin } = useContext(AuthContext);
+    const Navigate = useNavigate()
+    const { userLogin, googleAuthProvider } = useContext(AuthContext);
     const heandelLogin =(e)=>{
         e.preventDefault()
         const email = e.target.email.value;
@@ -13,10 +13,21 @@ function Login() {
         userLogin(email, password)
         .then(result =>{
             console.log(result.user);
+            e.target.reset();
+            Navigate('/')
+
         })
         .catch(error=>{
             console.log('ERROR', error.massage);
         })
+    }
+    const hendelGoogleSignIn=()=>{
+        googleAuthProvider()
+        .then(result =>{
+            console.log(result);
+            Navigate('/')
+        })
+        .catch(error=>console.log(error.message))
     }
 
   return (
@@ -34,7 +45,7 @@ function Login() {
               <input
                 type="email"
                 placeholder="email"
-                name='email'
+                name="email"
                 className="input input-bordered"
                 required
               />
@@ -46,7 +57,7 @@ function Login() {
               <input
                 type="password"
                 placeholder="password"
-                name='password'
+                name="password"
                 className="input input-bordered"
                 required
               />
@@ -59,8 +70,17 @@ function Login() {
             <div className="form-control mt-6">
               <button className="btn btn-primary">Login</button>
             </div>
-            <p>New user please ! <Link to={'/register'}>Register</Link></p>
+            <p>
+              New user please ! <Link to={"/register"}>Register</Link>
+            </p>
           </form>
+
+          <div className="text-center mb-3">
+            <button onClick={hendelGoogleSignIn} className="btn btn-primary">
+              {" "}
+              Google
+            </button>
+          </div>
         </div>
       </div>
     </div>
